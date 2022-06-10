@@ -37,7 +37,7 @@ void show_help()
     printf("\nAlguns exemplos de uso:\n");
     printf("./mandel -e 2 -n 20\n");
     printf("./mandel -x -0.5 -y -0.5 -e 0.25 -n 10\n\n");
-    printf("./mandel -x 0.286932 -y 0.014287 -e .0005 -m 1000 -n 10 -L 2000 -H 2000\n\n");
+    printf("./mandel -x 0.286932 -y 0.014287 -e .0005 -m 1000 -n 10 -L 2000 -A 2000\n\n");
     printf("./mandel -x -0.5 -y -0.5 -e 0.025 -n 10\n\n");
 }
 
