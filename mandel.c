@@ -29,15 +29,15 @@ void show_help()
     printf("-m <max>      O número máximo de iterações por ponto. (default=1000)\n");
     printf("-x <coord>    Coordenada X do centro da imagem. (default=0)\n");
     printf("-y <coord>    Cordenada Y do centro da imagem. (default=0)\n");
-    printf("-e <escala>   Escala da imagem em coordenadas de Mandlebrot.. (default=4)\n");
+    printf("-e <escala>   Escala da imagem em coordenadas de Mandlebrot. (default=4)\n");
     printf("-L <pixels>   Largura da imagem em pixels. (default=500)\n");
     printf("-A <pixels>   Altura da imagem em pixels. (default=500)\n");
     printf("-h            Mostrar ajuda.\n");
     printf("\nAlguns exemplos de uso:\n");
-    printf("./mandel -n 20\n");
+    printf("./mandel -e 2 -n 20\n");
     printf("./mandel -x -0.5 -y -0.5 -e 0.25 -n 10\n\n");
     printf("./mandel -x 0.286932 -y 0.014287 -e .0005 -m 1000 -n 10\n\n");
-    printf("./mandel -x -0.5 -y -0.5 -e 0.0025\n\n");
+    printf("./mandel -x -0.5 -y -0.5 -e 0.025 -n 10\n\n");
 }
 
 int main(int argc, char *argv[])
