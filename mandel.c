@@ -17,7 +17,7 @@ struct thread_args
 };
 
 pthread_mutex_t mutex;
-pthread_cond_t condicao;
+// pthread_cond_t condicao;
 
 int iteration_to_color(int i, int max);
 int iterations_at_point(double x, double y, int max);
@@ -37,7 +37,7 @@ void show_help()
     printf("\nAlguns exemplos de uso:\n");
     printf("./mandel -e 2 -n 20\n");
     printf("./mandel -x -0.5 -y -0.5 -e 0.25 -n 10\n\n");
-    printf("./mandel -x 0.286932 -y 0.014287 -e .0005 -m 1000 -n 10\n\n");
+    printf("./mandel -x 0.286932 -y 0.014287 -e .0005 -m 1000 -n 10 -L 2000 -H 2000\n\n");
     printf("./mandel -x -0.5 -y -0.5 -e 0.025 -n 10\n\n");
 }
 
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     pthread_t *tid; // identificador único das threads
     int threads_completas = 0;
 
-    // Pega o horário para acrescentar no nome da imagem
+    // Pega o horário
     struct tm *p;
     time_t seconds;
 
@@ -82,10 +82,10 @@ int main(int argc, char *argv[])
         case 'e':
             escala = atof(optarg);
             break;
-        case 'W':
+        case 'L':
             largura_img = atoi(optarg);
             break;
-        case 'H':
+        case 'A':
             altura_img = atoi(optarg);
             break;
         case 'm':
@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
 
     // Cria o bitmap conforme tamanho passado
     struct bitmap *bitmap = bitmap_create(largura_img, altura_img);
+    printf("Criado bitmap de altura %d e largura %d", altura_img, largura_img);
 
     // Preenche o bitmap de azul escuro
     bitmap_reset(bitmap, MAKE_RGBA(0, 0, 255, 0));
@@ -119,10 +120,10 @@ int main(int argc, char *argv[])
         printf("\n-Inicialização do mutex com sucesso \n");
     }
 
-    if (pthread_cond_init(&condicao, NULL) == 0)
-    {
-        printf("\n-Inicialização da variável de condição com sucesso \n");
-    }
+    // if (pthread_cond_init(&condicao, NULL) == 0)
+    // {
+    //     printf("\n-Inicialização da variável de condição com sucesso \n");
+    // }
 
     // Aloca espaço na memória
     args = malloc(sizeof(struct thread_args) * threads);
