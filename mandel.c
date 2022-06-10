@@ -17,6 +17,7 @@ struct thread_args
 };
 
 pthread_mutex_t mutex;
+pthread_cond_t condicao;
 
 int iteration_to_color(int i, int max);
 int iterations_at_point(double x, double y, int max);
@@ -101,7 +102,7 @@ int main(int argc, char *argv[])
     }
 
     // Mostra a configuração da imagem
-    printf("mandelbrot a ser gerado: x=%lf y=%lf escala=%lf max=%d threads=%d outfile=%s\n", x_centro, y_centro, escala, max, threads, outfile);
+    printf("Mandelbrot a ser gerado: x=%lf y=%lf escala=%lf max=%d threads=%d outfile=%s\n", x_centro, y_centro, escala, max, threads, outfile);
 
     // Cria o bitmap conforme tamanho passado
     struct bitmap *bitmap = bitmap_create(largura_img, altura_img);
@@ -115,7 +116,12 @@ int main(int argc, char *argv[])
 
     if (pthread_mutex_init(&mutex, NULL) == 0)
     {
-        printf("\n Inicialização do mutex com sucesso \n");
+        printf("\n-Inicialização do mutex com sucesso \n");
+    }
+
+    if (pthread_cond_init(&condicao, NULL) == 0)
+    {
+        printf("\n-Inicialização da variável de condição com sucesso \n");
     }
 
     // Aloca espaço na memória
@@ -145,12 +151,13 @@ int main(int argc, char *argv[])
             args: ponteiro para uma região de memória com dados de entrada para a função
         */
         valor_retorno = pthread_create(&tid[i], NULL, (void *)&compute_image, (void *)&args[i]);
+
         if (valor_retorno < 0)
         {
             printf("Erro pthread_create: %s\n", strerror(errno));
             i--; // tenta de novo
         }
-        printf("\n-----\nA thread %d foi gerada.\n", i);
+        printf("\n-----\nA thread %d foi criada.\n", i);
     }
 
     for (i = 0; i < threads; i++)
@@ -164,7 +171,6 @@ int main(int argc, char *argv[])
             Se tid não terminou, a chamadora espera bloqueada até o término
          */
         valor_retorno = pthread_join(tid[i], NULL);
-
         // Se completa o join com sucesso, retorna 0
         if (valor_retorno < 0)
         {
@@ -177,6 +183,7 @@ int main(int argc, char *argv[])
             printf("\n-----\n%d threads finalizaram.\n\n", threads_completas);
         }
     }
+
     // Libera espaço
     free(tid);
     free(args);
@@ -194,6 +201,7 @@ Computa a imagem inteira, escrevendo cada ponto no bitmap
 */
 void *compute_image(struct thread_args *args)
 {
+
     if (pthread_mutex_lock(&mutex) == 0)
     {
         printf("Mutex da thread %d lock \n", args->thread_num);
@@ -240,6 +248,7 @@ void *compute_image(struct thread_args *args)
     {
         printf("Mutex da thread %d unlock \n\n", args->thread_num);
     }
+
     return NULL;
 }
 
