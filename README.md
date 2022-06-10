@@ -1,7 +1,5 @@
 # Madelbrot Fractal Paralelo 
 
-# Foobar
-
 Esse repositório é um projeto para a cadeira de Computação Avançada. Foi desenvolvido em C, para criar imagens do formato bmp criadas a partir do paralelismo do [Mandelbrot Fractal](https://en.wikipedia.org/wiki/Mandelbrot_set). 
 
 
@@ -38,6 +36,11 @@ gcc -Wall -g -c bitmap.c -o bitmap.o
 
 
 ### Exemplos
+
+```shell
+./mandel -e 2 -n 20
+```
+<img width="498" alt="image" src="https://user-images.githubusercontent.com/38566830/173098656-53e4f117-0b27-4ce6-94a1-c56cbc3cd6c6.png">
 
 ```shell
 ./mandel -x -0.5 -y -0.5 -e 0.25 -n 10
