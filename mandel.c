@@ -113,7 +113,10 @@ int main(int argc, char *argv[])
     int i = 0;
     int valor_retorno;
 
-    pthread_mutex_init(&mutex, NULL);
+    if (pthread_mutex_init(&mutex, NULL) == 0)
+    {
+        printf("\n Inicialização do mutex com sucesso \n");
+    }
 
     // Aloca espaço na memória
     args = malloc(sizeof(struct thread_args) * threads);
@@ -147,8 +150,7 @@ int main(int argc, char *argv[])
             printf("Erro pthread_create: %s\n", strerror(errno));
             i--; // tenta de novo
         }
-
-        printf("A thread %d foi gerada.\n", i);
+        printf("\n-----\nA thread %d foi gerada.\n", i);
     }
 
     for (i = 0; i < threads; i++)
@@ -172,7 +174,7 @@ int main(int argc, char *argv[])
         {
             printf("Thread número %d fez pthread_join com sucesso.\n", i);
             threads_completas++;
-            printf("%d threads finalizaram.\n", threads_completas);
+            printf("\n-----\n%d threads finalizaram.\n\n", threads_completas);
         }
     }
     // Libera espaço
@@ -192,6 +194,10 @@ Computa a imagem inteira, escrevendo cada ponto no bitmap
 */
 void *compute_image(struct thread_args *args)
 {
+    if (pthread_mutex_lock(&mutex) == 0)
+    {
+        printf("Mutex da thread %d lock \n", args->thread_num);
+    }
     int i, j;
 
     int largura = bitmap_width(args->bitmap);
@@ -218,8 +224,6 @@ void *compute_image(struct thread_args *args)
 
         for (i = 0; i < largura; i++)
         {
-            pthread_mutex_lock(&mutex);
-
             // Determina o ponto no espaço x,y para o pixel
             double x = (args->x_inicial) + i * ((args->x_final) - (args->x_inicial)) / largura;
             double y = (args->y_inicial) + j * ((args->y_final) - (args->y_inicial)) / altura;
@@ -229,9 +233,12 @@ void *compute_image(struct thread_args *args)
 
             // Seta o pixel no bitmap.
             bitmap_set((args->bitmap), i, j, iteracao);
-
-            pthread_mutex_unlock(&mutex);
         }
+    }
+
+    if (pthread_mutex_unlock(&mutex) == 0)
+    {
+        printf("Mutex da thread %d unlock \n\n", args->thread_num);
     }
     return NULL;
 }
