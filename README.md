@@ -145,4 +145,4 @@ Thread número 19 fez pthread_join com sucesso.
 ```
 
 ## Projeto sequencial 
-O projeto sequencial foi retirado de (Project 3: Parallel Mandelbrot)[https://www3.nd.edu/~dthain/courses/cse30341/spring2018/project3/]
+O projeto sequencial foi retirado de [Project 3: Parallel Mandelbrot](https://www3.nd.edu/~dthain/courses/cse30341/spring2018/project3/)
