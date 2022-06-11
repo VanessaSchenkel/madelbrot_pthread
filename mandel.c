@@ -39,6 +39,7 @@ void show_help()
     printf("./mandel -x -0.5 -y -0.5 -e 0.25 -n 10\n\n");
     printf("./mandel -x 0.286932 -y 0.014287 -e .0005 -m 1000 -n 10 -L 2000 -A 2000\n\n");
     printf("./mandel -x -0.5 -y -0.5 -e 0.025 -n 10\n\n");
+    printf("./mandel -x -0.5 -y -0.5 -e 0.025 -n 10 -L 2000 -A 2000\n\n");
 }
 
 int main(int argc, char *argv[])
@@ -193,7 +194,6 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-
     return 0;
 }
 
@@ -226,7 +226,7 @@ void *compute_image(struct thread_args *args)
         altura_final = altura_inicial + (altura / args->total_threads);
     }
 
-    printf("Thread número: %d -> desenhando do pixels %d ao pixel %d.\n", args->thread_num, altura_inicial, altura_final);
+    printf("Thread número: %d -> desenha da altura inicial %d a altura final %d.\n", args->thread_num, altura_inicial, altura_final);
 
     for (j = altura_inicial; j < altura_final; j++)
     {
